@@ -1,0 +1,19 @@
+{% load compress %}
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Sample Project - Page 1</title>
+{% compress js %}
+    <script src="{% static "ts/page1.ts" %}" type="text/typescript"></script>
+{% endcompress %}
+{% compress css %}
+    <link rel="stylesheet" type="text/x-scss" href="{% static "scss/page1.scss" %}" />
+{% endcompress %}
+</head>
+<body>
+<h1>Page 1</h1>
+<div id="content">Loading...</div>
+</body>
+</html>
