@@ -4,17 +4,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Sample Project - Page 1</title>
+    <title>Sample Project - Page 2</title>
 {% compress js %}
     <script src="{% static "js/jquery-1.8.2.js" %}"></script>
-    <script src="{% static "ts/page1.ts" %}" type="text/typescript"></script>
+    <script src="{% static "ts/page2.ts" %}" type="text/typescript"></script>
 {% endcompress %}
 {% compress css %}
-    <link rel="stylesheet" type="text/x-scss" href="{% static "scss/page1.scss" %}" />
+    <link rel="stylesheet" type="text/x-scss" href="{% static "scss/page2.scss" %}" />
 {% endcompress %}
 </head>
 <body>
-<h1>Page 1</h1>
+<h1>Page 2</h1>
 <div id="content">Loading...</div>
 </body>
 </html>
