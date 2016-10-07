@@ -1,5 +1,3 @@
-declare var $: any;
-
 console.log("shared_a");
 
 export function make_change() {
