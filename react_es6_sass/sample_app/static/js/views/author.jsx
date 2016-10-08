@@ -1,13 +1,12 @@
-'use strict';
 import {BaseReactComponent} from './shared.jsx';
 import {AuthorModel} from '../models/author.js';
+import AuthorDispatcher from '../author-dispatcher.js';
 
 //**********************************************************************
 export class AuthorList extends BaseReactComponent {
     //******************************************************************
     getBackboneCollections() {
-        console.log("AuthorList.getBackboneCollections called");
-        return this.props.authors;
+        return [this.props.authors];
     }
 
     //******************************************************************
@@ -60,11 +59,6 @@ export class AddNewAuthor extends BaseReactComponent {
     }
 
     //******************************************************************
-    static propTypes = {
-        handleNewAuthor: React.PropTypes.func.isRequired
-    };
-
-    //******************************************************************
     static initialState() {
         return {
             isFormDisplayed: false,
@@ -80,7 +74,7 @@ export class AddNewAuthor extends BaseReactComponent {
 
     //******************************************************************
     handleNewAuthor = () => {
-        this.props.handleNewAuthor(this.state.author);
+        AuthorDispatcher.dispatch({actionType: "add-new-author", item: this.state.author});
         this.setState(AddNewAuthor.initialState());
     };
 
@@ -97,30 +91,20 @@ export class AddNewAuthor extends BaseReactComponent {
     //******************************************************************
     render() {
         if (this.state.isFormDisplayed) {
-            return this.renderOpen();
+            let styles = AddNewAuthor.getStyles();
+            return (
+                <div>
+                    <input onChange={this.linkState('author', 'firstName')} value={this.state.author.get('firstName')} placeholder="First Name" style={styles.firstName} type="text" />
+                    <input onChange={this.linkState('author', 'lastName')} value={this.state.author.get('lastName')} placeholder="Last Name" style={styles.lastName} type="text" />
+                    <input onChange={this.linkState('author', 'description')} value={this.state.author.get('description')} placeholder="Description Name" style={styles.description} type="text" />
+                    <button style={styles.submitButton} type="button" onClick={this.handleNewAuthor}>Create</button>
+                </div>
+            );
         }
         else {
-            return this.renderClosed();
+            return (
+                <button onClick={this.displayForm}>Add New Author</button>
+            );
         }
-    }
-
-    //******************************************************************
-    renderClosed() {
-        return (
-            <button onClick={this.displayForm}>Add New Author</button>
-        );
-    }
-
-    //******************************************************************
-    renderOpen() {
-        let styles = AddNewAuthor.getStyles();
-        return (
-            <div>
-                <input onChange={this.linkState('author', 'firstName')} value={this.state.author.get('firstName')} placeholder="First Name" style={styles.firstName} type="text" />
-                <input onChange={this.linkState('author', 'lastName')} value={this.state.author.get('lastName')} placeholder="Last Name" style={styles.lastName} type="text" />
-                <input onChange={this.linkState('author', 'description')} value={this.state.author.get('description')} placeholder="Description Name" style={styles.description} type="text" />
-                <button style={styles.submitButton} type="button" onClick={this.handleNewAuthor}>Create</button>
-            </div>
-        );
     }
 }

@@ -38,25 +38,18 @@ export class BaseReactComponent extends React.Component {
 
     //******************************************************************
     getBackboneCollections() {
-        console.log("base getBackboneCollections called");
-        console.log("getBackboneCollections this:");
-        console.log(this);
         return [];
     };
 
     //******************************************************************
     componentDidMount() {
-        console.log("componentDidMount called");
-        console.log("componentDidMount this:");
-        console.log(this);
 		// Whenever there may be a change in the Backbone data, trigger a
         // reconcile.
         this.getBackboneCollections().forEach((collection) => {
             // explicitly bind `null` to `forceUpdate`, as it demands a callback and
             // React validates that it's a function. `collection` events passes
             // additional arguments that are not functions
-            collection.on('add remove change', this.forceUpdate.bind(this, null));
-            console.log("setting on thing to collection " + collection);
+            collection.on('add remove change unshift', this.forceUpdate.bind(this, null));
         });
     };
 
