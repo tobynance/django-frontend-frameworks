@@ -35,16 +35,30 @@ class AuthorItem extends React.Component {
                 paddingLeft: '5px',
                 paddingRight: '10px'
             },
+            authorItem: {
+                border: 'solid'
+            },
+            deleteButton: {
+                backgroundColor: 'red',
+                color: 'blue'
+            },
         };
     }
+
+    //******************************************************************
+    handleDeleteAuthor = () => {
+        console.log("deleteAuthor clicked");
+        AuthorDispatcher.dispatch({actionType: "delete-author", authorId: this.props.author.id});
+    };
 
     //******************************************************************
     render() {
         let styles = AuthorItem.getStyles();
         return (
-            <div className="author-item">
+            <div className="author-item" style={styles.authorItem}>
                 <img style={styles.img} src={django.static("images/person-icon.png")}/>
                 {this.props.author.getDisplayName()}
+                <button style={styles.deleteButton} type="button" onClick={self.handleDeleteAuthor}>X</button>
             </div>
         );
     }
@@ -74,7 +88,7 @@ export class AddNewAuthor extends BaseReactComponent {
 
     //******************************************************************
     handleNewAuthor = () => {
-        AuthorDispatcher.dispatch({actionType: "add-new-author", item: this.state.author});
+        AuthorDispatcher.dispatch({actionType: "add-new-author", author: this.state.author});
         this.setState(AddNewAuthor.initialState());
     };
 
@@ -94,8 +108,8 @@ export class AddNewAuthor extends BaseReactComponent {
             let styles = AddNewAuthor.getStyles();
             return (
                 <div>
-                    <input onChange={this.linkState('author', 'firstName')} value={this.state.author.get('firstName')} placeholder="First Name" style={styles.firstName} type="text" />
-                    <input onChange={this.linkState('author', 'lastName')} value={this.state.author.get('lastName')} placeholder="Last Name" style={styles.lastName} type="text" />
+                    <input onChange={this.linkState('author', 'first_name')} value={this.state.author.get('first_name')} placeholder="First Name" style={styles.firstName} type="text" />
+                    <input onChange={this.linkState('author', 'last_name')} value={this.state.author.get('last_name')} placeholder="Last Name" style={styles.lastName} type="text" />
                     <input onChange={this.linkState('author', 'description')} value={this.state.author.get('description')} placeholder="Description Name" style={styles.description} type="text" />
                     <button style={styles.submitButton} type="button" onClick={this.handleNewAuthor}>Create</button>
                 </div>

@@ -5,9 +5,9 @@ import {AddNewAuthor, AuthorList} from "../components.jsx";
 console.log("page1 loading...");
 
 var FIXTURE = [
-  {firstName: 'Susan', lastName: 'Jones', description: 'has a beard'},
-  {firstName: 'Jerry', lastName: 'Jones', description: 'super tall'},
-  {firstName: 'Tina', lastName: 'Turner', description: 'probably dead'},
+  {first_name: 'Susan', last_name: 'Jones', description: 'has a beard'},
+  {first_name: 'Jerry', last_name: 'Jones', description: 'super tall'},
+  {first_name: 'Tina', last_name: 'Turner', description: 'probably dead'},
 ];
 
 // AuthorStore.reset(FIXTURE);

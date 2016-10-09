@@ -4,7 +4,12 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import json
+
 from django.shortcuts import render, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from sample_app import models
 
 
 ########################################################################
@@ -33,11 +38,14 @@ def api_token(request):
 
 
 ########################################################################
+@csrf_exempt
 def authors(request):
-    content = """\
-    [
-        {"firstName": "Roober", "lastName": "Jones", "description": "has a beard"},
-        {"firstName": "Loober", "lastName": "Jones", "description": "super tall"},
-        {"firstName": "Hoober", "lastName": "Turner", "description": "probably dead"}
-    ]"""
-    return HttpResponse(content, content_type="text/json")
+    if request.method == "GET":
+        content = json.dumps(list(models.Author.objects.all().values()))
+        return HttpResponse(content, content_type="text/json")
+    elif request.method == "POST":
+        new_author = json.loads(request.body)
+        models.Author.objects.create(first_name=new_author["first_name"],
+                                     last_name=new_author["last_name"],
+                                     description=new_author["description"])
+        return HttpResponse('"ok"', content_type="text/json")

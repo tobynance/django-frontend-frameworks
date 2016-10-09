@@ -6,25 +6,16 @@ export class AuthorModel extends Backbone.Model {
     //******************************************************************
     defaults() {
         return {
-            firstName: '',
-            lastName: '',
+            id: null,
+            first_name: '',
+            last_name: '',
             description: ''
         };
     }
 
     //******************************************************************
-    initialize(options) {
-        this.options = options;
-    }
-
-    //******************************************************************
-    load() {
-
-    }
-
-    //******************************************************************
     getDisplayName() {
-        return this.get('firstName') + " " + this.get('lastName');
+        return this.get('first_name') + " " + this.get('last_name');
     }
 }
 
@@ -40,11 +31,16 @@ export class AuthorCollection extends Backbone.Collection {
     dispatchCallback = (payload) => {
         switch (payload.actionType) {
             case "add-new-author":
-                console.log("Adding item!!!" + this.length);
-                this.unshift(payload.item);
+                console.log("Adding Author: " + payload.author);
+                this.create(payload.item); // TODO - Add callback methods
                 break;
-            case "delete-last-item":
-                this.pop();
+            case "delete-author":
+                console.log("deleting author: " + payload.authorId);
+                authorId = payload.authorId;
+                let author = this.findWhere({id: payload.authorId});
+                if (author) {
+                    this.remove(author); // TODO - I don't think this will remove it on the server, but need to verify
+                }
                 break;
         }
     };
