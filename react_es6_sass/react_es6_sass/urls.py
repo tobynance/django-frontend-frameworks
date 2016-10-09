@@ -1,21 +1,7 @@
-"""react_es6_sass URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.8/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import include, url
 from django.views.generic.base import RedirectView
 from django.contrib import admin
-from sample_app.views import page1, page2
+from sample_app.views import page1, page2, api_root, api_token, authors
 
 
 urlpatterns = [
@@ -23,4 +9,7 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='sample-app/page1', permanent=False)),
     url(r'^sample-app/page1', page1),
     url(r'^sample-app/page2', page2),
+    url(r'^sample-app/api-root', api_root, name='api-root'),
+    url(r'^sample-app/api-token', api_token, name='api-token'),
+    url(r'^sample-app/authors', authors, name='authors'),
 ]

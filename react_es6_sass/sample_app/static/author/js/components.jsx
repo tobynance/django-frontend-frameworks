@@ -1,6 +1,6 @@
 import {BaseReactComponent} from './shared.jsx';
-import {AuthorModel} from '../models/author.js';
-import AuthorDispatcher from '../author-dispatcher.js';
+import {AuthorModel} from './models.js';
+import AuthorDispatcher from './dispatcher.js';
 
 //**********************************************************************
 export class AuthorList extends BaseReactComponent {

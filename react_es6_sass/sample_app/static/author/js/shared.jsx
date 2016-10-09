@@ -1,6 +1,12 @@
 console.log("shared_a");
 
 //**********************************************************************
+export function get_config(identifier='#config') {
+    var config = $('#config');
+    return JSON.parse(config.text());
+}
+
+//**********************************************************************
 export function make_change() {
     console.log("shared_b");
     $("#content2").text("Dynamically changed in shared.");
@@ -62,9 +68,3 @@ export class BaseReactComponent extends React.Component {
         });
     }
 }
-
-// export class Text extends React.Component {
-//     render() {
-//         React.createElement('input', { type: 'text', onChange:
-//     }
-// }

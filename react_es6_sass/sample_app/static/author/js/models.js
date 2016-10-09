@@ -1,4 +1,5 @@
-import AuthorDispatcher from '../author-dispatcher.js';
+import AuthorDispatcher from './dispatcher.js';
+import {get_config} from './shared.jsx';
 
 //**********************************************************************
 export class AuthorModel extends Backbone.Model {
@@ -9,7 +10,17 @@ export class AuthorModel extends Backbone.Model {
             lastName: '',
             description: ''
         };
-    };
+    }
+
+    //******************************************************************
+    initialize(options) {
+        this.options = options;
+    }
+
+    //******************************************************************
+    load() {
+
+    }
 
     //******************************************************************
     getDisplayName() {
@@ -17,16 +28,19 @@ export class AuthorModel extends Backbone.Model {
     }
 }
 
+var config = get_config();
+
 //**********************************************************************
-class AuthorCollection extends Backbone.Collection {
+export class AuthorCollection extends Backbone.Collection {
     model = AuthorModel;
+    url = config.authorsUrl;
     dispatchToken = null;
 
     //******************************************************************
     dispatchCallback = (payload) => {
         switch (payload.actionType) {
             case "add-new-author":
-                console.log("Adding item!!!");
+                console.log("Adding item!!!" + this.length);
                 this.unshift(payload.item);
                 break;
             case "delete-last-item":
@@ -34,7 +48,6 @@ class AuthorCollection extends Backbone.Collection {
                 break;
         }
     };
-
 }
 
 export const AuthorStore = new AuthorCollection();

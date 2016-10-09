@@ -1,4 +1,4 @@
-import {Dispatcher} from '../third_party/Flux.min.js';
+import {Dispatcher} from '../../third_party/Flux.min.js';
 
 const AuthorDispatcher = new Dispatcher();
 
