@@ -47,7 +47,6 @@ class AuthorItem extends React.Component {
 
     //******************************************************************
     handleDeleteAuthor = () => {
-        console.log("deleteAuthor clicked");
         AuthorDispatcher.dispatch({actionType: "delete-author", authorId: this.props.author.id});
     };
 
@@ -58,7 +57,7 @@ class AuthorItem extends React.Component {
             <div className="author-item" style={styles.authorItem}>
                 <img style={styles.img} src={django.static("images/person-icon.png")}/>
                 {this.props.author.getDisplayName()}
-                <button style={styles.deleteButton} type="button" onClick={self.handleDeleteAuthor}>X</button>
+                <button style={styles.deleteButton} type="button" onClick={this.handleDeleteAuthor}>X</button>
             </div>
         );
     }
@@ -79,6 +78,7 @@ export class AddNewAuthor extends BaseReactComponent {
             author: new AuthorModel()
         };
     };
+
     //******************************************************************
     displayForm = () => {
         var state = this.state;

@@ -36,7 +36,6 @@ export class AuthorCollection extends Backbone.Collection {
                 break;
             case "delete-author":
                 console.log("deleting author: " + payload.authorId);
-                authorId = payload.authorId;
                 let author = this.findWhere({id: payload.authorId});
                 if (author) {
                     this.remove(author); // TODO - I don't think this will remove it on the server, but need to verify
