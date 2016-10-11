@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.views.generic.base import RedirectView
 from django.contrib import admin
-from sample_app.views import page1, page2, test, api_root, api_token, authors, author
+from sample_app.views import page1, page2, api_root, api_token, authors, author
 
 
 urlpatterns = [
@@ -9,7 +9,6 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='sample-app/page1', permanent=False)),
     url(r'^sample-app/page1$', page1),
     url(r'^sample-app/page2$', page2),
-    url(r'^sample-app/test$', test),
     url(r'^sample-app/api-root$', api_root, name='api-root'),
     url(r'^sample-app/api-token$', api_token, name='api-token'),
     url(r'^sample-app/authors$', authors, name='authors'),
