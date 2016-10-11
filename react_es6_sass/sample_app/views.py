@@ -18,36 +18,12 @@ def page1(request):
 
 
 ########################################################################
-def page2(request):
-    return render(request, "author/page2.html")
-
-
-########################################################################
-def api_root(request):
-    content = """\
-    {
-        "authors": "/sample-app/authors"
-    }
-    """
-    return HttpResponse(content, content_type="text/json")
-
-
-########################################################################
-def api_token(request):
-    return HttpResponse("notimplemented", content_type="text/json")
-
-
-########################################################################
 @csrf_exempt
 def authors(request):
     if request.method == "GET":
         content = json.dumps(list(models.Author.objects.all().values()))
-        print("content:")
-        print(content)
         return HttpResponse(content, content_type="text/json")
     elif request.method == "POST":
-        print("incoming content")
-        print(request.body)
         data = json.loads(request.body)
         new_author = models.Author.objects.create(first_name=data["first_name"],
                                                   last_name=data["last_name"],
@@ -56,8 +32,7 @@ def authors(request):
         content = json.dumps({"id": new_author.id})
         return HttpResponse(content, content_type="text/json")
     else:
-        print("A DIFFERENT request:", request.method)
-        print("A DIFFERENT request:", request.body)
+        print("A DIFFERENT request:", request.method, request.body)
 
 
 ########################################################################
@@ -67,8 +42,6 @@ def author(request, author_id):
         an_author = models.Author.objects.filter(id=author_id).values().first()
         if an_author:
             content = json.dumps(an_author)
-            print("content:")
-            print(content)
             return HttpResponse(content, content_type="text/json")
         else:
             return HttpResponse("not found", content_type="text/plain", status=404)
@@ -80,5 +53,4 @@ def author(request, author_id):
         models.Author.objects.filter(id=author_id).delete()
         return HttpResponse("ok", content_type="text/plain", status=200)
     else:
-        print("A DIFFERENT request:", request.method)
-        print("A DIFFERENT request:", request.body)
+        print("A DIFFERENT request:", request.method, request.body)
