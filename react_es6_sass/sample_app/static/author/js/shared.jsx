@@ -1,15 +1,30 @@
+import jQuery from 'jquery';
+import React from 'react';
+
 console.log("shared_a");
+
+export const _config = {};
 
 //**********************************************************************
 export function get_config(identifier='#config') {
-    var config = $('#config');
-    return JSON.parse(config.text());
+    if (_config[identifier]) {
+        return _config[identifier];
+    }
+    var config = jQuery(identifier);
+    if (config) {
+        let data = JSON.parse(config.text());
+        _config[identifier] = data;
+        return data;
+    }
+    else {
+        console.log("Unable to find #config! Have you defined it in your document");
+    }
 }
 
 //**********************************************************************
 export function make_change() {
     console.log("shared_b");
-    $("#content2").text("Dynamically changed in shared.");
+    jQuery("#content2").text("Dynamically changed in shared.");
 }
 
 //**********************************************************************

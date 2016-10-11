@@ -1,12 +1,9 @@
 packages=(
-    autoprefixer
-    babel-plugin-transform-class-properties
-    babel-plugin-transform-decorators
-    babel-preset-es2015
-    babel-preset-react
-    babelify
-    browserify
     node-sass
-    postcss-cli)
+    postcss-cli
+    jest)
 
 npm install -g ${packages[*]}
+
+# based off of http://blog.revathskumar.com/2016/02/browserify-separate-app-and-vendor-bundles.html
+browserify -o sample_app/static/third_party/vendor.js -r react -r react-dom -r jquery -r backbone -r flux

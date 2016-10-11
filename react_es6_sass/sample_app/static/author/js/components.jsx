@@ -1,3 +1,4 @@
+import React from 'react';
 import {BaseReactComponent} from './shared.jsx';
 import {AuthorModel} from './models.js';
 import AuthorDispatcher from './dispatcher.js';
@@ -8,19 +9,26 @@ export class AuthorList extends BaseReactComponent {
     getBackboneCollections() {
         return [this.props.authors];
     }
+    refresh() {
+        AuthorDispatcher.dispatch({actionType: "refresh-authors"});
+    }
 
     //******************************************************************
     render() {
         return (
-            <div className="authors">
-                {this.props.authors.map((item, index) => {
-                    return (
-                        <AuthorItem
-                            author={item}
-                            key={index}
-                        />
-                    );
-                })}
+            <div>
+                <ul className="authors collection">
+                    {this.props.authors.map((author, index) => {
+                        return (
+                            <AuthorItem
+                                author={author}
+                                key={index}
+                                expanded={author === this.props.authors.expanded}
+                            />
+                        );
+                    })}
+                </ul>
+                <a className="waves-effect btn" onClick={this.refresh}>Refresh</a>
             </div>
         );
     }
@@ -36,12 +44,15 @@ class AuthorItem extends React.Component {
                 paddingRight: '10px'
             },
             authorItem: {
-                border: 'solid'
+                // border: 'solid'
             },
             deleteButton: {
                 backgroundColor: 'red',
                 color: 'blue'
             },
+            expandedAuthor: {
+                display: 'inline-block'
+            }
         };
     }
 
@@ -51,14 +62,38 @@ class AuthorItem extends React.Component {
     };
 
     //******************************************************************
+    handleExpandAuthor = () => {
+        console.log("handleExpandAuthor");
+        AuthorDispatcher.dispatch({actionType: "expand-author", author: this.props.author});
+    };
+
+    //******************************************************************
     render() {
         let styles = AuthorItem.getStyles();
+        let innerChunk = null;
+        if (this.props.expanded) {
+            innerChunk = (
+                <ul className="collection" style={styles.expandedAuthor}>
+                    <li className="collection-item"><strong>ID:</strong>{this.props.author.get('id')}</li>
+                    <li className="collection-item"><strong>First Name:</strong>{this.props.author.get('first_name')}</li>
+                    <li className="collection-item"><strong>Last Name:</strong>{this.props.author.get('last_name')}</li>
+                    <li className="collection-item"><strong>Description:</strong>{this.props.author.get('description')}</li>
+                </ul>
+            );
+        }
+        else {
+            innerChunk = (
+                <span>
+                    <i className="material-icons left">account_circle</i>
+                    {this.props.author.getDisplayName()}
+                </span>
+            );
+        }
         return (
-            <div className="author-item" style={styles.authorItem}>
-                <img style={styles.img} src={django.static("images/person-icon.png")}/>
-                {this.props.author.getDisplayName()}
-                <button style={styles.deleteButton} type="button" onClick={this.handleDeleteAuthor}>X</button>
-            </div>
+            <li className="collection-item author-item" style={styles.authorItem} onClick={this.handleExpandAuthor}>
+                {innerChunk}
+                <i onClick={this.handleDeleteAuthor} className="material-icons small right">delete</i>
+            </li>
         );
     }
 }
@@ -117,7 +152,7 @@ export class AddNewAuthor extends BaseReactComponent {
         }
         else {
             return (
-                <button onClick={this.displayForm}>Add New Author</button>
+                <a className="waves-effect btn" onClick={this.displayForm}>Add New Author</a>
             );
         }
     }

@@ -1,29 +1,12 @@
-import * as shared from "../shared.jsx";
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {AuthorStore} from '../models.js';
 import {AddNewAuthor, AuthorList} from "../components.jsx";
+import AuthorDispatcher from '../dispatcher.js';
 
 console.log("page1 loading...");
 
-var FIXTURE = [
-  {first_name: 'Susan', last_name: 'Jones', description: 'has a beard'},
-  {first_name: 'Jerry', last_name: 'Jones', description: 'super tall'},
-  {first_name: 'Tina', last_name: 'Turner', description: 'probably dead'},
-];
-
-// AuthorStore.reset(FIXTURE);
-function success(collection, response, options) {
-    console.log("success");
-    console.log(collection);
-    console.log(response);
-    console.log(options);
-}
-function error(collection, response, options) {
-    console.log("error");
-    console.log(collection);
-    console.log(response);
-    console.log(options);
-}
-AuthorStore.fetch({success: success, error: error});
+AuthorDispatcher.dispatch({actionType: "refresh-authors"});
 
 //**********************************************************************
 function main() {

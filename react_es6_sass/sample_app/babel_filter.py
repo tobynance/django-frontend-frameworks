@@ -8,6 +8,7 @@ from django.conf import settings
 from compressor.filters import CompilerFilter
 
 BABEL_BUILDER = ("browserify %s {infile} -o {outfile} "
+                 "-x=react -x=jquery -x=react-dom -x=backbone -x=flux "
                  "-t [ babelify --presets [react es2015 ] "
                  "--plugins [ transform-class-properties transform-decorators ] ]")
 
