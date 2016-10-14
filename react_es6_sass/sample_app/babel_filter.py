@@ -5,6 +5,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.template import Template, Context
+import django.template.base
 from compressor.filters import CompilerFilter
 
 BABEL_BUILDER = ("browserify %s {infile} -o {outfile} "
@@ -14,19 +16,6 @@ BABEL_BUILDER = ("browserify %s {infile} -o {outfile} "
 
 BABEL_BUILDER %= "-d" if settings.DEBUG else ""
 
-JS_SNIPPET = """\
-/* Dynamically added by BabelFilter */
-
-var django = {
-    STATIC_URL: "%s",
-    static: function(url) {
-        return this.STATIC_URL + url;
-    }
-};
-
-/* end dynamic insertion */
-""" % settings.STATIC_URL
-
 
 ########################################################################
 class BabelFilter(CompilerFilter):
@@ -34,5 +23,11 @@ class BabelFilter(CompilerFilter):
 
     ####################################################################
     def input(self, **kwargs):
-        output = super(BabelFilter, self).input(**kwargs)
-        return JS_SNIPPET + output
+        content = super(BabelFilter, self).input(**kwargs)
+        builtins = django.template.base.builtins[:]
+        django.template.base.add_to_builtins('django.templatetags.static')
+        template = Template(content)
+        context = Context(settings.COMPRESS_TEMPLATE_FILTER_CONTEXT)
+        rendered = template.render(context)
+        django.template.base.builtins = builtins
+        return rendered

@@ -2,7 +2,8 @@
 
 import React from 'react';
 
-import {AddNewAuthor, AuthorList} from "../components.jsx";
+import {AuthorList} from "../components.jsx";
+import AddNewAuthor from "../components/add-new-author.jsx";
 import {AuthorStore} from '../models.js';
 import AuthorDispatcher from '../dispatcher.js';
 import renderer from 'react-test-renderer';
