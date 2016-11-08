@@ -1,0 +1,33 @@
+{% load compress %}
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Sample Project - Page 1</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="{% static "third_party/materialize/css/materialize.min.css" %}"  media="screen,projection"/>
+
+{% compress js %}
+    <script src="{% static "third_party/vendor.js" %}"></script>
+{%  endcompress %}
+{% compress js %}
+    <script src="{% static "third_party/materialize/js/materialize.min.js" %}"></script>
+{%  endcompress %}
+
+{% compress css %}
+    <link rel="stylesheet" type="text/x-scss" href="{% static "sample_app/scss/page3.scss" %}" />
+{% endcompress %}
+</head>
+<body>
+<h1>Notification Preferences</h1>
+<div id="app"></div>
+{% compress js %}
+    <script type="text/babel" src="{% static "sample_app/js/page3.jsx" %}"></script>
+{% endcompress %}
+</body>
+</html>

@@ -18,6 +18,11 @@ def page1(request):
 
 
 ########################################################################
+def page3(request):
+    return render(request, "author/page3.html")
+
+
+########################################################################
 @csrf_exempt
 def authors(request):
     if request.method == "GET":
